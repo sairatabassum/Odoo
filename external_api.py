@@ -3,7 +3,7 @@ import xmlrpc.client
 url = "http://localhost:8082"
 db = "odoo_test"
 username = "saira.tabassum@bedatasolutions.com"
-password = "121998"
+password = "******"
 
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
 # print('version info',common.version())
