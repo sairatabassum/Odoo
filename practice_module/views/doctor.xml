@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="doctor_form_view" model="ir.ui.view">
+        <field name="name">mh-doctor.form</field>
+        <field name="model">doctor.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <!--Add Web Ribbon-->
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="ref"/>
+                        <field name="gender"/>
+                        <!-- Archive and Unarchived option in odoo-->
+                        <field name="active" invisible="1"/>
+                    </group>
+                </sheet>
+                <!-- Adding Tracking Fields-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids" options="{'post_refresh':'recipients'}"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="doctor_form_tree_view" model="ir.ui.view">
+        <field name="name">doctor.tree</field>
+        <field name="model">doctor.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="doctor_search_view" model="ir.ui.view">
+        <field name="name">doctor.search</field>
+        <field name="model">doctor.form</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|',('name','ilike',self),('ref','ilike',self)]"/>
+                <field name="ref"/>
+                <field name="gender"/>
+
+                <!-- Adding Filter -->
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <filter name="filter_others" string="Others" domain="[('gender', '=', 'others')]"/>
+                <!-- And operator -->
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active','=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_doctor_form" model="ir.actions.act_window">
+        <field name="name">Doctor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">doctor.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="menu_doctors"
+              action="action_doctor_form"
+              name="Doctor"
+              parent="menu_makehub_master"
+              sequence="10"/>
+
+</odoo>

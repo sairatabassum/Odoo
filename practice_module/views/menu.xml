@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_makehub_root"
+              name="Practice"
+              sequence="2"/>
+
+    <menuitem id="menu_makehub_operation"
+              name="Operation"
+              parent="menu_makehub_root"
+              sequence="3"/>
+
+    <menuitem id="menu_makehub_master"
+              name="Makehub Master"
+              parent="menu_makehub_root"
+              sequence="1"/>
+
+
+</odoo>

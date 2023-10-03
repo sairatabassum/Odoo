@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+practice_module.access_practice_form,access_practice_form,practice_module.model_practice_form,base.group_user,1,1,1,1
+practice_module.access_doctor_form,access_doctor_form,practice_module.model_doctor_form,base.group_user,1,1,1,1
+practice_module.access_doctor_line,access_doctor_line,practice_module.model_doctor_line,base.group_user,1,1,1,1

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="makehub_form_view" model="ir.ui.view">
+        <field name="name">practice.form</field>
+        <field name="model">practice.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <!-- Adding Sequence Number -->
+                    <div class="oe-title">
+                        <h1>
+                            <field name="ref" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_child"/>
+                        <field name="age"/>
+                        <field name="gender"/>
+                        <field name="doctor_id"/>
+                        <field name="capitalized_name"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <!-- Adding Tracking Fields-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids" options="{'post_refresh':'recipients'}"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="makehub_form_tree_view" model="ir.ui.view">
+        <field name="name">practice.tree</field>
+        <field name="model">practice.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="capitalized_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--  Adding Search View  -->
+    <record id="makehub_form_search_view" model="ir.ui.view">
+        <field name="name">practice.search</field>
+        <field name="model">practice.form</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- <field name="ref"/> -->
+                <field name="name" filter_domain="['|',('name','ilike',self),('ref','ilike',self)]"/>
+                <field name="age"/>
+                <field name="gender"/>
+
+                <!-- Adding Filter -->
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <filter name="filter_others" string="Others" domain="[('gender', '=', 'others')]"/>
+                <!-- And operator -->
+                <separator/>
+                <filter name="filter_childs" string="Childs" domain="[('is_child', '=', True)]"/>
+
+                <!--  Adding Group by-->
+                <group expand="0" string="Group By...">
+                    <filter string="Gender" name="group_by_gender" context="{'group_by': 'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="makehub_form_kanban_view" model="ir.ui.view">
+        <field name="name">practice.kanban</field>
+        <field name="model">practice.form</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="capitalized_name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="ref"/>
+                                </strong>
+                                <div>
+                                    <field name="name"/>
+                                </div>
+                                <div>
+                                    <field name="capitalized_name"/>
+                                </div>
+                                <div t-if="record.age.value">
+                                    <t t-esc="record.age.value"/>
+                                </div>
+                                <div t-if="record.gender.value">
+                                    <t t-esc="record.gender.value"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+
+        </field>
+    </record>
+
+    <record id="action_makehub_form" model="ir.actions.act_window">
+        <field name="name">Person</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">practice.form</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'search_default_filter_child':1}</field>
+        <field name="search_view_id" ref="practice_module.makehub_form_search_view"/>
+    </record>
+
+
+    <menuitem id="menu_makehub_person"
+              action="action_makehub_form"
+              name="Person"
+              parent="menu_makehub_root"
+              sequence="4"/>
+
+
+
+</odoo>
